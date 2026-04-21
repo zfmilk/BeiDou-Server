@@ -46,6 +46,9 @@ public final class LoginPasswordHandler implements PacketHandler {
 
     @Override
     public final void handlePacket(InPacket p, Client c) {
+        log.info("=== LOGIN HANDLER DEBUG === received packet, length: {}", p.getBytes().length);
+        log.info("=== LOGIN HANDLER DEBUG === first bytes: {}", org.gms.util.HexTool.toHexString(p.getBytes()));
+        log.info("=== LOGIN HANDLER DEBUG === remoteHost: {}", remoteHost);
         String remoteHost = c.getRemoteAddress();
         if (remoteHost.contentEquals("null")) {
             c.sendPacket(PacketCreator.getLoginFailed(14));          // thanks Alchemist for noting remoteHost could be null
