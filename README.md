@@ -73,3 +73,4 @@ web中所有的图片均需要联网获取，感谢 https://maplestory.io 提供
 [Wiki地址](https://github.com/BeiDouMS/BeiDou-Server/wiki)
 
 
+# trigger
