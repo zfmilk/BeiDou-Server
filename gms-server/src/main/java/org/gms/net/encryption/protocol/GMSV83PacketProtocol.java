@@ -32,7 +32,8 @@ public class GMSV83PacketProtocol implements PacketProtocol {
     @Override
     public void decode(ChannelHandlerContext context, ByteBuf in, List<Object> out) {
         final int header = in.readInt();
-        log.info("=== DECODE DEBUG === Client connected, raw header: {}, isValid: {}", Integer.toHexString(header), receiveCypher.isValidHeader(header));
+        log.info("=== DECODE DEBUG === header: {}, isValid: {}, IV: {}", Integer.toHexString(header), receiveCypher.isValidHeader(header), receiveCypher);
+        log.info("=== DECODE DEBUG === After decrypt packet: {}", HexTool.toHexString(packet));
 
         if (!receiveCypher.isValidHeader(header)) {
             throw new InvalidPacketHeaderException("Attempted to decode a packet with an invalid header", header);
