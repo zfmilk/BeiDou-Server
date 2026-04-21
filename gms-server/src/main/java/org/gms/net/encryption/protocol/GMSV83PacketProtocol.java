@@ -16,8 +16,11 @@ import org.gms.net.packet.Packet;
 import org.gms.util.PacketCreator;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GMSV83PacketProtocol implements PacketProtocol {
+    private static final Logger log = LoggerFactory.getLogger(GMSV83PacketProtocol.class);
     private final MapleAESOFB receiveCypher;
     private final MapleAESOFB sendCypher;
 
@@ -29,6 +32,7 @@ public class GMSV83PacketProtocol implements PacketProtocol {
     @Override
     public void decode(ChannelHandlerContext context, ByteBuf in, List<Object> out) {
         final int header = in.readInt();
+        log.info("=== DECODE DEBUG === Client connected, raw header: {}, isValid: {}", Integer.toHexString(header), receiveCypher.isValidHeader(header));
 
         if (!receiveCypher.isValidHeader(header)) {
             throw new InvalidPacketHeaderException("Attempted to decode a packet with an invalid header", header);
@@ -37,8 +41,11 @@ public class GMSV83PacketProtocol implements PacketProtocol {
         final int packetLength = decodePacketLength(header);
         byte[] packet = new byte[packetLength];
         in.readBytes(packet);
+        log.info("=== DECODE DEBUG === Raw packet bytes ({}): {}", packet.length, org.gms.util.HexTool.toHexString(packet));
         receiveCypher.crypt(packet);
+        log.info("=== DECODE DEBUG === After AES crypt: {}", org.gms.util.HexTool.toHexString(packet));
         MapleCustomEncryption.decryptData(packet);
+        log.info("=== DECODE DEBUG === After MapleCustom decrypt: {}", org.gms.util.HexTool.toHexString(packet));
         out.add(new ByteBufInPacket(Unpooled.wrappedBuffer(packet)));
     }
 
