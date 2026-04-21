@@ -72,3 +72,4 @@ web中所有的图片均需要联网获取，感谢 https://maplestory.io 提供
 发现很多同学的问题基本在Wiki中都有答案，欢迎大家去看看。另外如果发现Wiki中没有的问题，欢迎提issue，或直接补充。已将Wiki开放为所有人都可以编辑。  
 [Wiki地址](https://github.com/BeiDouMS/BeiDou-Server/wiki)
 
+
